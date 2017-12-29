@@ -2,15 +2,16 @@ package com.aubrey.demo.controllers;
 
 import com.aubrey.demo.data.entities.Project;
 import com.aubrey.demo.data.entities.services.ProjectService;
+import com.aubrey.demo.data.entities.validators.ProjectValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @Controller
@@ -53,10 +54,22 @@ public class ProjectController {
     //Model attribute says, look into the Model for a class of resources that we can pass the method
     //As an argument
     @RequestMapping(value="/add",method=RequestMethod.POST)
-    public String saveProject(@ModelAttribute Project project){
+    public String saveProject(@Valid @ModelAttribute Project project, Errors errors){
+
+        if(!errors.hasErrors()){
+            System.out.println("The project validated");
+        }else {
+            System.out.println("the project did not validate");
+        }
+
         System.out.println("invoking saveProject");
         System.out.println(project);
         return "project_add";
+    }
+
+    @InitBinder //will be called when controller is called for data binding
+    public void initBinder(WebDataBinder binder){
+        binder.addValidators(new ProjectValidator());
     }
 
 //    @RequestMapping(value="/add",method=RequestMethod.POST, params={"type=multi"})
