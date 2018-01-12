@@ -42,7 +42,7 @@
 
 				<div class="form-group">
 					<label for="resource-name">Name</label>
-					<form:input path="name" cssClass="form-control" id="resource-name"/>
+					<form:input path="name" cssClass="form-control" id="resource-name"/>e
 				</div>
 
 				<div class="form-group">

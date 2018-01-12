@@ -1,5 +1,7 @@
 package com.aubrey.demo.data.entities;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -7,6 +9,8 @@ public class Project {
 
     private Long projectID;
     private String name;
+
+    @NotBlank(message="You must provide a name field")
     private String description;
     private Sponsor sponsor;
     private BigDecimal authorizedHours;

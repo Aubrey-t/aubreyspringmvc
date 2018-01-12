@@ -55,8 +55,7 @@
 			</div>
 
 			<a href="<spring:url value="/resource/add"/>" class="btn btn-default">Edit</a>
-			<a href="<spring:url value="/resource/save"/>"
-				class="btn btn-default">Save</a>
+			<a href="<spring:url value="/resource/save"/>" class="btn btn-default">Save</a>
 		</div>
 	</div>
 </body>

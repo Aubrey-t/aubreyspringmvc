@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,8 +17,16 @@ public class ResourceController {
 
     @RequestMapping("/add")
     public  String add(){
-        System.out.println("Invoking Add");
+        System.out.println("Invoking Add()");
+        if(1==1){
+            throw new RuntimeException("There was an error");
+        }
         return "resource_add";
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public String handleError(HttpServletRequest request){
+        return "controller_error";
     }
 
     @RequestMapping("/request")

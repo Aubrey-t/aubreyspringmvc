@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -35,6 +36,12 @@ public class ProjectController {
              return "projects";
     }
 
+    @RequestMapping("/review")
+    public String review(@ModelAttribute Project project){
+        System.out.println("Invoking review()");
+        return "project_review";
+    }
+
     @RequestMapping(value="/add",method=RequestMethod.GET)
     public String addProject(Model model){
 
@@ -50,20 +57,24 @@ public class ProjectController {
         return "project_add";
     }
 
+
     //contains some debugging
     //Model attribute says, look into the Model for a class of resources that we can pass the method
     //As an argument
-    @RequestMapping(value="/add",method=RequestMethod.POST)
-    public String saveProject(@Valid @ModelAttribute Project project, Errors errors){
+
+    @RequestMapping(value= "/saveProject",method=RequestMethod.POST)
+    public String saveProject(@Valid @ModelAttribute Project project, Errors errors, SessionStatus status){
 
         if(!errors.hasErrors()){
             System.out.println("The project validated");
         }else {
-            System.out.println("the project did not validate");
+            System.out.println("The project did not validate");
         }
 
         System.out.println("invoking saveProject");
         System.out.println(project);
+        status.setComplete();//remove the attributes of the previous session(not working)
+
         return "project_add";
     }
 

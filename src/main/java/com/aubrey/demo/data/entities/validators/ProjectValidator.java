@@ -17,6 +17,7 @@ public class ProjectValidator implements Validator{
     @Override
     public void validate(Object obj, Errors errors) {
 
+        //Hard type casting, learn about it
         Project project = (Project) obj;
 
         if(project.getName().length() < 5){
