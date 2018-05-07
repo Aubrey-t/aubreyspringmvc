@@ -1,4 +1,4 @@
-package resolvers;
+package com.aubrey.demo.resolvers;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -17,6 +17,6 @@ public class GlobalHandlerExceptionResolver implements HandlerExceptionResolver 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("global_error");
 
-        return null;
+        return mav;
     }
 }

@@ -23,51 +23,54 @@ public class ProjectController {
     private ProjectService projectService;
 
     //find a project by ID
-    @RequestMapping(value="/{projectID}")
+    @RequestMapping(value = "/{projectID}")
     //@PathVariable makes sure the URL template variable is passed to the method argument in ProjectService
-    public String findProject(Model model, @PathVariable Long projectID){
-        model.addAttribute("project",this.projectService.find(projectID));
+    public String findProject(Model model, @PathVariable Long projectID) {
+        model.addAttribute("project", this.projectService.find(projectID));
         return "project";
     }
+
     //finds information of all projects
-    @RequestMapping(value="/find")
-    public String find(Model model){
+    @RequestMapping(value = "/find")
+    public String find(Model model) {
         model.addAttribute("projects", this.projectService.findAll());
-             return "projects";
+        return "projects";
     }
 
     @RequestMapping("/review")
-    public String review(@ModelAttribute Project project){
+    public String review(@ModelAttribute Project project) {
         System.out.println("Invoking review()");
         return "project_review";
     }
 
-    @RequestMapping(value="/add",method=RequestMethod.GET)
-    public String addProject(Model model){
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String addProject(Model model) {
 
-        model.addAttribute("types",new ArrayList<String>() {{
+        model.addAttribute("types", new ArrayList<String>() {{
 
             add("");
             add("single Year");
             add("Multi Year");
         }});
 
-        model.addAttribute("project",new Project());
+        model.addAttribute("project", new Project());
 
         return "project_add";
     }
 
+    
 
     //contains some debugging
     //Model attribute says, look into the Model for a class of resources that we can pass the method
     //As an argument
 
-    @RequestMapping(value= "/saveProject",method=RequestMethod.POST)
-    public String saveProject(@Valid @ModelAttribute Project project, Errors errors, SessionStatus status){
+    @RequestMapping(value = "/saveProject")
+    public String saveProject(@ModelAttribute Project project, Errors errors, SessionStatus status) {
+//    public String saveProject(Model model) {
 
-        if(!errors.hasErrors()){
+        if (!errors.hasErrors()) {
             System.out.println("The project validated");
-        }else {
+        } else {
             System.out.println("The project did not validate");
         }
 
@@ -75,23 +78,16 @@ public class ProjectController {
         System.out.println(project);
         status.setComplete();//remove the attributes of the previous session(not working)
 
-        return "project_add";
+        return "redirect:/project/add";
+       // model.addAttribute("project", new Project());
+
+        //return "redirect:project/add";
     }
 
     @InitBinder //will be called when controller is called for data binding
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder) {
         binder.addValidators(new ProjectValidator());
     }
 
-//    @RequestMapping(value="/add",method=RequestMethod.POST, params={"type=multi"})
-//    public String saveMultiYearProject(){
-//        System.out.println("invoking saveMultiProject");
-//        return "project_add";
-//    }
-//
-//    @RequestMapping(value="/add",method=RequestMethod.POST, params={"type=multi","special"})
-//    public String saveSpecialProject(){
-//        System.out.println("invoking saveSpecialProject");
-//        return "project_add";
-//    }
+
 }

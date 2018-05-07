@@ -4,11 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.XmlViewResolver;
 
 @Configuration
 @ComponentScan
@@ -41,5 +44,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         resource.setBasename("classpath:messages");
         resource.setDefaultEncoding("UTF-8");
         return resource;
+    }
+
+
+
+    @Bean
+    public XmlViewResolver xmlViewResolver(){
+
+        XmlViewResolver resolver = new XmlViewResolver();
+        Resource resource = new ClassPathResource("/WEB-INF/Spring/views.xml");
+        resolver.setLocation(resource);
+        //xmlViewResolver().setOrder(1);
+        return resolver;
     }
 }
